@@ -4,13 +4,12 @@ TCB * task_list;
 int ARTOS_idle_stk[IDLESTACKSIZE];
 
 void ARTOS_run(){
+  ARTOS_NewTask(ARTOS_idle,ARTOS_idle_stk,255);
+  ARTOS_scheduler();
+}
+void ARTOS_scheduler(){
   while(1){
     task_list->task();
-    task_list->task = 0;
-    task_list = task_list->next;
-    if (task_list == 0){
-	return;
-    } 
   }
 }
 
@@ -19,7 +18,6 @@ void ARTOS_idle(){
     
   }
 }
-//
 
 void ARTOS_NewTask(void (* task)(void),void *taskStack, unsigned priority){
   int i;
@@ -28,12 +26,22 @@ void ARTOS_NewTask(void (* task)(void),void *taskStack, unsigned priority){
       tasks[i].task = task;
       tasks[i].stack = taskStack;
       tasks[i].priority = priority;
+      tasks[i].id = i;
       task_list = addToList(task_list, &tasks[i]);
       break;
     }
   }
 }
 
+void ARTOS_DeleteCurrentTask(){
+  task_list->task = 0;
+  task_list = task_list->next;
+}
+
+void ARTOS_UpdateCurrentTaskPriority(unsigned priority){
+  task_list->priority = priority;
+  task_list = addToList(task_list->next, task_list);
+}
 
 TCB* addToList(TCB * list, TCB * task){
   if(list){

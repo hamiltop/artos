@@ -2,7 +2,7 @@
 #define STACKSIZE 100
 
 struct t_c_b {
-  int state;
+  int id;
   unsigned char priority;
   void (* task)(); 
   struct t_c_b * next;
@@ -13,7 +13,9 @@ typedef struct t_c_b TCB;
 
 void ARTOS_idle();
 void ARTOS_run();
+void ARTOS_scheduler();
 void ARTOS_NewTask(void (* task)(void),void *taskStack, unsigned priority);
+void ARTOS_DeleteCurrentTask();
 TCB* addToList(TCB * list, TCB * task);
 
 

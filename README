@@ -1,0 +1,19 @@
+ARTOS is an Arduino Real Time Operating System.
+
+I'm sure it's been done before, but I want to build a Multitasking environment for Arduino.  The design is fairly straightforward.  Each task is merely a loop.  The tasks are sorted in a priority based linked list.  The highest priority task runs until it exits.  Once it exits, the highest priority task is kicked off.  If the original task is still the highest priority, it runs again.  The task can alter its own priority and delete itself from the task_list.
+
+Current Functionality:
+
+Priority based scheduling.
+Ability for Task to remove itself from the scheduling priority queue.
+Ability to change a task's priority.
+
+To Be Added:
+
+Context save/restore.  (Look at how FreeTOS does it on AVR.  Requires some assembly.)
+Timer based blocking.
+Semaphore based blocking.
+Blocking and non blocking message queues.
+
+if anyone is interested in contributing, send me a message.  Or just fork it and do what you will.
+
